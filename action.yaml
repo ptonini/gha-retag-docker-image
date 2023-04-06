@@ -1,0 +1,34 @@
+name: 'retag-docker-image'
+description: ''
+inputs:
+  registry:
+    description: ''
+    required: true
+  username:
+    description: ''
+    required: true
+  password:
+    description: ''
+    required: true
+  repository:
+    description: ''
+    required: true
+  source_tag:
+    description: ''
+    required: true
+  tags:
+    description: ''
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: docker/login-action@v2
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+    - run: |
+        for TAG in ${{ inputs.tags }}; do
+          docker buildx imagetools create ${{ inputs.repository }}:${{ inputs.source_tag }} --tag ${{ inputs.repository }}:${TAG}
+        done
+      shell: bash
