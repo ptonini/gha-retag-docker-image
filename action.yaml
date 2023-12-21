@@ -1,4 +1,4 @@
-name: 'retag-docker-image'
+name: retag-docker-image
 description: ''
 inputs:
   registry:
